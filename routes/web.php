@@ -17,6 +17,18 @@ Route::get('/', function () {
     return redirect('/login');
 });
 
+Route::get('/storage-link', function () {
+    $targetFolder = base_path() . '/storage/app/public';
+    $linkFolder =  $_SERVER['DOCUMENT_ROOT'] . '/storage';
+
+    if (!file_exists($linkFolder)) {
+        symlink($targetFolder, $linkFolder);
+        return "Storage link successfully created!";
+    } else {
+        return "Storage link already exists!";
+    }
+});
+
 Route::middleware([
     'auth:sanctum',
     config('jetstream.auth_session'),
